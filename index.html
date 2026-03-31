@@ -2,34 +2,460 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bexar Country | Explore the Edge</title>
-  <link rel="stylesheet" href="/styles.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BexarCountry.com — Coming Soon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rust:   #C8451A;
+      --amber:  #E8840A;
+      --sand:   #F5E6CE;
+      --dark:   #0F0D0B;
+      --mid:    #1E1A14;
+      --muted:  #6B5F4E;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--dark);
+      color: var(--sand);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .bg-scene {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .bg-scene::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 120% 70% at 60% 0%, #3B1F08 0%, #0F0D0B 65%);
+    }
+
+    .hills {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 55%;
+    }
+
+    .hill-far {
+      position: absolute;
+      bottom: 30%;
+      left: -5%;
+      width: 110%;
+      height: 50%;
+      background: #161209;
+      border-radius: 50% 60% 0 0 / 80% 80% 0 0;
+    }
+
+    .hill-mid {
+      position: absolute;
+      bottom: 18%;
+      left: -10%;
+      width: 70%;
+      height: 60%;
+      background: #1A1510;
+      border-radius: 0 80% 0 0 / 0 60% 0 0;
+    }
+
+    .hill-mid2 {
+      position: absolute;
+      bottom: 18%;
+      right: -10%;
+      width: 65%;
+      height: 55%;
+      background: #191410;
+      border-radius: 80% 0 0 0 / 60% 0 0 0;
+    }
+
+    .ground {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 20%;
+      background: linear-gradient(to top, #0F0D0B, #1A1510);
+    }
+
+    .trail {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px;
+      height: 50%;
+      background: linear-gradient(to top, rgba(200,69,26,0.25) 0%, rgba(200,69,26,0.08) 60%, transparent 100%);
+      clip-path: polygon(20% 100%, 80% 100%, 55% 0%, 45% 0%);
+    }
+
+    .sun {
+      position: absolute;
+      top: 6%;
+      right: 18%;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #FF8C2A 0%, #C8451A 40%, transparent 70%);
+      filter: blur(8px);
+      opacity: 0.55;
+      animation: pulse-sun 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse-sun {
+      from { opacity: 0.45; transform: scale(1); }
+      to   { opacity: 0.65; transform: scale(1.06); }
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      border-bottom: 1px solid rgba(200,69,26,0.15);
+      background: rgba(15,13,11,0.6);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.12em;
+      color: var(--sand);
+    }
+
+    .topbar-logo span { color: var(--rust); }
+
+    .topbar-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fade-up 0.8s 0.2s forwards ease-out;
+    }
+
+    .eyebrow::before,
+    .eyebrow::after {
+      content: '—';
+      margin: 0 0.6rem;
+      opacity: 0.5;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 15vw, 11rem);
+      line-height: 0.9;
+      letter-spacing: 0.03em;
+      color: var(--sand);
+      text-shadow: 0 4px 40px rgba(200,69,26,0.3);
+      opacity: 0;
+      animation: fade-up 0.9s 0.4s forwards ease-out;
+    }
+
+    h1 .accent { color: var(--rust); }
+
+    .tagline {
+      margin-top: 1.8rem;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(245,230,206,0.65);
+      max-width: 480px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fade-up 0.9s 0.6s forwards ease-out;
+    }
+
+    .divider {
+      margin: 2.5rem auto;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--rust), transparent);
+      opacity: 0;
+      animation: fade-up 0.8s 0.8s forwards ease-out;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border: 1px solid rgba(200,69,26,0.5);
+      border-radius: 2px;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      background: rgba(200,69,26,0.08);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      animation: fade-up 0.8s 1s forwards ease-out;
+    }
+
+    .features {
+      margin-top: 3.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+      max-width: 560px;
+      opacity: 0;
+      animation: fade-up 0.9s 1.2s forwards ease-out;
+    }
+
+    .feat {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1rem;
+      border: 1px solid rgba(245,230,206,0.1);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: rgba(245,230,206,0.6);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .feat-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--rust);
+      flex-shrink: 0;
+    }
+
+    .signup {
+      margin-top: 2.8rem;
+      display: flex;
+      gap: 0;
+      max-width: 400px;
+      width: 100%;
+      opacity: 0;
+      animation: fade-up 0.9s 1.4s forwards ease-out;
+    }
+
+    .signup input {
+      flex: 1;
+      padding: 0.85rem 1.2rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(200,69,26,0.3);
+      border-right: none;
+      border-radius: 2px 0 0 2px;
+      color: var(--sand);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .signup input::placeholder { color: var(--muted); }
+    .signup input:focus { border-color: var(--rust); }
+
+    .signup button {
+      padding: 0.85rem 1.4rem;
+      background: var(--rust);
+      border: 1px solid var(--rust);
+      border-radius: 0 2px 2px 0;
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .signup button:hover { background: var(--amber); border-color: var(--amber); }
+    .signup button:active { transform: scale(0.97); }
+
+    .runner-wrap {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      animation: fade-in 1.2s 1.6s forwards ease-out;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 1.2rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      z-index: 10;
+      opacity: 0;
+      animation: fade-in 1s 2s forwards ease-out;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (max-width: 540px) {
+      .topbar { padding: 1rem 1.4rem; }
+      .signup { flex-direction: column; }
+      .signup input { border-right: 1px solid rgba(200,69,26,0.3); border-bottom: none; border-radius: 2px 2px 0 0; }
+      .signup button { border-radius: 0 0 2px 2px; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-   <nav>
-  <div class="logo">BEXAR COUNTRY</div>
-  <ul>
-    <!--<li><a href="#">MISSIONS</a></li>
-    <li><a href="#">VEHICLES</a></li>-->
-    <li><a href="#">ABOUT</a></li>
-    <li><a href="#">CONTACT</a></li>
-  </ul>
-</nav>
+
+  <!-- Background Scene -->
+  <div class="bg-scene">
+    <div class="sun"></div>
+    <div class="hills">
+      <div class="hill-far"></div>
+      <div class="hill-mid"></div>
+      <div class="hill-mid2"></div>
+      <div class="ground"></div>
+      <div class="trail"></div>
+    </div>
+  </div>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-logo">Bexar<span>Country</span>.com</div>
+    <div class="topbar-tag">San Antonio, TX</div>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h1>BEYOND THE HORIZON</h1>
-      <p>Redefining what's possible—right here on Earth.</p>
-      <a href="#" class="btn primary">Discover More</a>
-    </div>
-  </section>
+  <!-- Main Content -->
+  <main class="page">
+    <div class="eyebrow">Trail & Road Running</div>
 
-  <footer>
-    <p>&copy; 2026 Bexar Country. All rights reserved.</p>
-  </footer>
+    <h1>BEXAR<br><span class="accent">COUNTRY</span></h1>
+
+    <p class="tagline">Where the hills meet the heat — your home for running routes, race events, and the local running community in Bexar County.</p>
+
+    <div class="divider"></div>
+
+    <div class="badge">Something great is coming</div>
+
+    <div class="features">
+      <div class="feat">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M3 17l4-8 4 4 4-6 4 10"/>
+        </svg>
+        Trail Routes
+      </div>
+      <div class="feat">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+        </svg>
+        Race Calendar
+      </div>
+      <div class="feat">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Community
+      </div>
+      <div class="feat">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+        Training Plans
+      </div>
+      <div class="feat">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        Local Spots
+      </div>
+    </div>
+
+    <div class="signup">
+      <input type="email" placeholder="your@email.com" />
+      <button>Notify Me</button>
+    </div>
+  </main>
+
+  <!-- Runner Silhouette -->
+  <div class="runner-wrap">
+    <svg viewBox="0 0 1440 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+      <!-- Ground line -->
+      <line x1="0" y1="158" x2="1440" y2="158" stroke="rgba(200,69,26,0.15)" stroke-width="1"/>
+      <!-- Runner silhouette centered -->
+      <g transform="translate(680, 20) scale(-1, 1)">
+        <!-- Head -->
+        <ellipse cx="12" cy="14" rx="9" ry="9" fill="rgba(200,69,26,0.55)"/>
+        <!-- Body -->
+        <path d="M12 23 L8 60 L16 60 L19 42 L12 23Z" fill="rgba(200,69,26,0.55)"/>
+        <!-- Left arm (forward) -->
+        <path d="M12 30 Q-4 44 -8 52" stroke="rgba(200,69,26,0.55)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- Right arm (back) -->
+        <path d="M12 30 Q26 38 32 32" stroke="rgba(200,69,26,0.55)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- Left leg (forward stride) -->
+        <path d="M12 60 Q4 85 -10 110 Q-18 128 -16 138" stroke="rgba(200,69,26,0.55)" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <!-- Left foot -->
+        <path d="M-16 138 Q-24 140 -28 136" stroke="rgba(200,69,26,0.55)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- Right leg (back kick) -->
+        <path d="M14 58 Q22 80 28 100 Q32 115 42 125" stroke="rgba(200,69,26,0.55)" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <!-- Right foot (kick up) -->
+        <path d="M42 125 Q50 120 56 112" stroke="rgba(200,69,26,0.55)" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- Dust puff -->
+      <ellipse cx="650" cy="157" rx="22" ry="4" fill="rgba(200,69,26,0.12)"/>
+      <ellipse cx="635" cy="157" rx="14" ry="3" fill="rgba(200,69,26,0.08)"/>
+    </svg>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">© 2026 BexarCountry.com — San Antonio, Texas</footer>
+
 </body>
 </html>
