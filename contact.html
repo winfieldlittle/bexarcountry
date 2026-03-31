@@ -37,6 +37,7 @@
       z-index: 999;
     }
 
+    /* ── BACKGROUND SCENE ── */
     .bg-scene {
       position: fixed;
       inset: 0;
@@ -127,6 +128,7 @@
       to   { opacity: 0.65; transform: scale(1.06); }
     }
 
+    /* ── TOPBAR ── */
     .topbar {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -157,6 +159,7 @@
       color: var(--muted);
     }
 
+    /* ── LAYOUT ── */
     .page {
       position: relative;
       z-index: 1;
@@ -169,6 +172,7 @@
       text-align: center;
     }
 
+    /* ── CONTACT CARD ── */
     .contact-card {
       width: 100%;
       max-width: 460px;
@@ -222,6 +226,7 @@
       margin: 0 auto 2rem;
     }
 
+    /* ── FORM FIELDS ── */
     .field {
       text-align: left;
       margin-bottom: 1.2rem;
@@ -255,6 +260,7 @@
       background: rgba(200,69,26,0.06);
     }
 
+    /* ── SUBMIT BUTTON ── */
     .submit-btn {
       width: 100%;
       padding: 0.9rem 1.4rem;
@@ -273,6 +279,7 @@
     .submit-btn:hover { background: var(--amber); border-color: var(--amber); }
     .submit-btn:active { transform: scale(0.98); }
 
+    /* ── THANK YOU PANEL ── */
     #thankyou {
       display: none;
       flex-direction: column;
@@ -324,6 +331,7 @@
 
     #thankyou .back-link:hover { color: var(--amber); border-color: var(--amber); }
 
+    /* ── ERROR MESSAGE ── */
     #message {
       margin-top: 1.2rem;
       padding: 0.9rem 1rem;
@@ -338,6 +346,7 @@
 
     #message.error { display: block; }
 
+    /* ── FOOTER ── */
     .footer {
       position: fixed;
       bottom: 1.2rem;
@@ -371,6 +380,7 @@
 </head>
 <body>
 
+  <!-- Background Scene -->
   <div class="bg-scene">
     <div class="sun"></div>
     <div class="hills">
@@ -382,11 +392,13 @@
     </div>
   </div>
 
+  <!-- Top Bar -->
   <header class="topbar">
     <a href="index.html" class="topbar-logo">Bexar<span>Country</span>.com</a>
     <div class="topbar-tag">San Antonio, TX</div>
   </header>
 
+  <!-- Main Content -->
   <main class="page">
     <div class="eyebrow">Get in Touch</div>
 
@@ -420,6 +432,7 @@
     </div>
   </main>
 
+  <!-- Footer -->
   <footer class="footer">© 2026 BexarCountry.com — San Antonio, Texas</footer>
 
   <script>
@@ -447,15 +460,17 @@
         });
 
         const result = await response.text();
+        console.log("Script response:", result);
 
-        if (result.includes("Success")) {
+        if (response.ok && !result.toLowerCase().includes("error")) {
           form.style.display = "none";
           document.getElementById('thankyou').style.display = "flex";
         } else {
           messageDiv.className = "error";
-          messageDiv.textContent = "❌ " + result;
+          messageDiv.textContent = "❌ " + (result || "Something went wrong.");
         }
       } catch (err) {
+        console.log("Fetch error:", err);
         messageDiv.className = "error";
         messageDiv.textContent = "❌ Network error: " + err.message;
       } finally {
